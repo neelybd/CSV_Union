@@ -1,6 +1,7 @@
 import pandas as pd
 from tkinter import Tk
-from tkinter.filedialog import askopenfilename, asksaveasfilename
+from tkinter.filedialog import asksaveasfilename, askopenfilenames
+
 
 def main():
     print("Program: BN_CSV_Union")
@@ -17,54 +18,40 @@ def main():
     Tk().withdraw()
 
     # Select initial file
-    file_in_1 = open_file("csv")
-
-    # Select secondary file
-    file_in_2 = open_file("csv")
-
-    # Ask if another file to join is desired
-
-
-    unioned_data = pd.concat([file_in_1, file_in_2])
-
-    unioned_data.to_csv(select_file_out(file_in_1, "Select output file"), index=False)
-
-
-def another_file():
-    while another != "n":
-        # Is another file desired
-        another = y_n_question("Is another file desired for unioning? y/n:")
-
-        if another == "n":
-            return n
-        else:
-            # Select another file
-            file_in = open_file("csv")
-
-            # Return file
-            return file_in
-
-
-def y_n_question(question):
-    while True:
-        # Ask question
-        answer = input(question)
-        answer_cleaned = answer[0].lower()
-        if answer_cleaned == 'y' or answer_cleaned == 'n':
-            return answer_cleaned
-        else:
-            print("Invalid input, please try again.")
-
-
-def open_file(file_in_type):
-    # Select file in
-    file_in = select_file_in(file_in_type)
+    files_in = select_multiple_files("Select multiple files for union", "csv")
 
     # Ask for file delimination
     delimination = input("Enter File Deliminator: ")
 
     # Ask for encoder
     encoder = encoding_selection("Please Select Encoder: ")
+
+    # Create a blank variable
+    concatenated = None
+
+    # Concatenate variables
+    for i in files_in:
+        concatenated = pd.concat([concatenated, open_file(i, encoder, delimination)])
+
+    # Export file
+    concatenated.to_csv(select_file_out(files_in[0], "Select output file"), index=False)
+
+
+def select_multiple_files(title, file_type):
+    if file_type == 'txt':
+        file_type_string = "Text"
+    else:
+        file_type_string = "Comma Separated Values"
+    files_in = askopenfilenames(initialdir="../", title=title, filetypes=((file_type_string, "*." + file_type),
+                                                                          ("all files", "*.*")))
+    if not files_in:
+        input("Program Terminated. Press Enter to continue...")
+        exit()
+
+    return files_in
+
+
+def open_file(file_in, encoder, delimination):
 
     try:
         data = pd.read_csv(file_in, low_memory=False, encoding=encoder, delimiter=delimination)
@@ -74,20 +61,6 @@ def open_file(file_in_type):
         print("Encoder Error for: " + encoder)
         return "Encode Error"
     return data
-
-
-def select_file_in(file_type):
-    if file_type == 'txt':
-        file_type_string = "Text"
-    else:
-        file_type_string = "Comma Separated Values"
-    file_in = askopenfilename(initialdir="../", title="Select file",
-                              filetypes=((file_type_string, "*." + file_type), ("all files", "*.*")))
-    if not file_in:
-        input("Program Terminated. Press Enter to continue...")
-        exit()
-
-    return file_in
 
 
 def select_file_out(file_in, note):
