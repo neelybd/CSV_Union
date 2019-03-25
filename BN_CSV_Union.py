@@ -23,9 +23,60 @@ def main():
     file_in_2 = open_file("csv")
 
     # Ask if another file to join is desired
+    if y_n_question("Open another file: ") == "y":
+        file_in_3 = open_file("csv")
+    else:
+        file_in_3 = None
+    # Ask if another file to join is desired
+    if y_n_question("Open another file: ") == "y":
+        file_in_4 = open_file("csv")
+    else:
+        file_in_4 = None
+    # Ask if another file to join is desired
+    if y_n_question("Open another file: ") == "y":
+        file_in_5 = open_file("csv")
+    else:
+        file_in_5 = None
+    # Ask if another file to join is desired
+    if y_n_question("Open another file: ") == "y":
+        file_in_6 = open_file("csv")
+    else:
+        file_in_6 = None
+    # Ask if another file to join is desired
+    if y_n_question("Open another file: ") == "y":
+        file_in_7 = open_file("csv")
+    else:
+        file_in_7 = None
+    # Ask if another file to join is desired
+    if y_n_question("Open another file: ") == "y":
+        file_in_8 = open_file("csv")
+    else:
+        file_in_8 = None
+    # Ask if another file to join is desired
+    if y_n_question("Open another file: ") == "y":
+        file_in_9 = open_file("csv")
+    else:
+        file_in_9 = None
+    # Ask if another file to join is desired
+    if y_n_question("Open another file: ") == "y":
+        file_in_10 = open_file("csv")
+    else:
+        file_in_10 = None
+    # Ask if another file to join is desired
+    if y_n_question("Open another file: ") == "y":
+        file_in_11 = open_file("csv")
+    else:
+        file_in_11 = None
+    # Ask if another file to join is desired
+    if y_n_question("Open another file: ") == "y":
+        file_in_12 = open_file("csv")
+    else:
+        file_in_12 = None
 
-
-    unioned_data = pd.concat([file_in_1, file_in_2])
+    unioned_data = pd.concat([file_in_1, file_in_2, file_in_3,
+                              file_in_4, file_in_5, file_in_6,
+                              file_in_7, file_in_8, file_in_9,
+                              file_in_10, file_in_11, file_in_12])
 
     unioned_data.to_csv(select_file_out(file_in_1, "Select output file"), index=False)
 
